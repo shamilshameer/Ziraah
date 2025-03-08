@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIRAAH - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                            url('https://images.unsplash.com/photo-1500382017468-9049fed747ef');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .sections-wrapper {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            color: #2c5f2d;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2c5f2d;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .dashboard-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .seller-btn {
+            background-color: #2c5f2d;
+            color: white;
+        }
+
+        .seller-btn:hover {
+            background-color: #224b23;
+            transform: translateY(-2px);
+        }
+
+        .buyer-btn {
+            background-color: #1a4173;
+            color: white;
+        }
+
+        .buyer-btn:hover {
+            background-color: #153358;
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            font-size: 20px;
+        }
+
+        .user-info {
+            color: white;
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .sections-wrapper {
+                flex-direction: column;
+            }
+
+            .section {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="user-info">
+            <button class="logout-btn" onclick="location.href='index.html'">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+
+        <div class="header">
+            <h1>ZIRAAH Marketplace</h1>
+            <p>Welcome to your agricultural trading platform</p>
+        </div>
+
+        <div class="sections-wrapper">
+            <!-- Selling Section -->
+            <div class="section">
+                <h2 class="section-title">Selling</h2>
+                <div class="button-group">
+                    <button class="dashboard-btn seller-btn">
+                        <i class="fas fa-tachometer-alt icon"></i>
+                        Seller Dashboard
+                    </button>
+                    <button class="dashboard-btn seller-btn">
+                        <i class="fas fa-edit icon"></i>
+                        Add/Edit Product Listing
+                    </button>
+                    <button class="dashboard-btn seller-btn">
+                        <i class="fas fa-tasks icon"></i>
+                        Order Management
+                    </button>
+                </div>
+            </div>
+
+            <!-- Buying Section -->
+            <div class="section">
+                <h2 class="section-title">Buying</h2>
+                <div class="button-group">
+                    <button class="dashboard-btn buyer-btn">
+                        <i class="fas fa-search icon"></i>
+                        Browse Products and Search
+                    </button>
+                    <button class="dashboard-btn buyer-btn">
+                        <i class="fas fa-eye icon"></i>
+                        View Product Details
+                    </button>
+                    <button class="dashboard-btn buyer-btn">
+                        <i class="fas fa-shopping-cart icon"></i>
+                        Add to Cart
+                    </button>
+                    <button class="dashboard-btn buyer-btn">
+                        <i class="fas fa-star icon"></i>
+                        Leave Feedback and Ratings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add click handlers for buttons
+        document.querySelectorAll('.dashboard-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Add button click animation
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+
+                // Get the button text and handle navigation
+                const buttonText = this.textContent.trim();
+                switch(buttonText) {
+                    case 'Seller Dashboard':
+                        // Add navigation logic
+                        break;
+                    case 'Add/Edit Product Listing':
+                        // Add navigation logic
+                        break;
+                    case 'Order Management':
+                        // Add navigation logic
+                        break;
+                    case 'Browse Products and Search':
+                        // Add navigation logic
+                        break;
+                    case 'View Product Details':
+                        // Add navigation logic
+                        break;
+                    case 'Add to Cart':
+                        // Add navigation logic
+                        break;
+                    case 'Leave Feedback and Ratings':
+                        // Add navigation logic
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
