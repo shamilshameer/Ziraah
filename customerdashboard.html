@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIRAAH - Product Catalog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #2c5f2d;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 12px 24px;
+            background-color: #2c5f2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #224b23;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 20px;
+            color: #2c5f2d;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 12px;
+            background-color: #2c5f2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #224b23;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .back-btn {
+            background-color: #1a4173;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 15px;
+        }
+
+        .back-btn:hover {
+            background-color: #153358;
+        }
+
+        /* Add new styles for quantity controls */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .quantity-btn {
+            background-color: #2c5f2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background-color: #224b23;
+        }
+
+        .quantity-display {
+            font-size: 16px;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Add new styles for farmer details and ratings */
+        .farmer-details {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .farmer-name {
+            color: #2c5f2d;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .farmer-location {
+            color: #666;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            margin: 8px 0;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .verified-badge {
+            background-color: #2c5f2d;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        /* Add new styles for image gallery */
+        .image-gallery {
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+
+        .gallery-images {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none; /* Prevent image drag */
+        }
+
+        .gallery-images img.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .gallery-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            border: none;
+        }
+
+        .gallery-dot.active {
+            background-color: white;
+        }
+
+        .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            transition: background-color 0.3s ease;
+        }
+
+        .gallery-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .gallery-prev {
+            left: 10px;
+        }
+
+        .gallery-next {
+            right: 10px;
+        }
+
+        /* Add new styles for feedback */
+        .feedback-btn {
+            background-color: #1a4173;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .feedback-btn:hover {
+            background-color: #153358;
+        }
+
+        .feedback-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .feedback-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            font-size: 24px;
+        }
+
+        .star-rating i {
+            color: #ddd;
+            cursor: pointer;
+        }
+
+        .star-rating i.active {
+            color: #ffc107;
+        }
+
+        .feedback-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-feedback {
+            background-color: #2c5f2d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-feedback:hover {
+            background-color: #224b23;
+        }
+
+        .cart-summary {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 15px;
+        }
+
+        .cart-total {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .add-to-cart.added {
+            background-color: #28a745;
+        }
+
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .item-total {
+            color: #2c5f2d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>ZIRAAH Product Catalog</h1>
+            <div style="display: flex; align-items: center;">
+                <button class="back-btn" onclick="location.href='dashboard.html'">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+                <div class="cart-summary">
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart fa-2x" style="color: white;"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div class="cart-total">Total: ₹<span id="cartTotal">0.00</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" placeholder="Search vegetables...">
+            <button><i class="fas fa-search"></i> Search</button>
+        </div>
+
+        <div class="products-grid">
+            <!-- Sample Product Cards -->
+            <div class="product-card">
+                <div class="image-gallery">
+                    <div class="gallery-images">
+                        <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337" alt="Fresh Tomatoes Front" class="active">
+                        <img src="https://images.unsplash.com/photo-1592841200221-a6898f307baa" alt="Fresh Tomatoes Side">
+                        <img src="https://images.unsplash.com/photo-1561136594-7f68413baa99" alt="Fresh Tomatoes Close">
+                    </div>
+                    <button class="gallery-arrow gallery-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="gallery-arrow gallery-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="gallery-nav">
+                        <button class="gallery-dot active"></button>
+                        <button class="gallery-dot"></button>
+                        <button class="gallery-dot"></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Fresh Tomatoes</h3>
+                    <div class="price-info">
+                        <p class="product-price">₹80/kg</p>
+                        <p class="item-total">Total: ₹<span>80</span></p>
+                    </div>
+                    <div class="farmer-details">
+                        <div class="farmer-name">
+                            <i class="fas fa-user-circle"></i>
+                            John Smith
+                            <span class="verified-badge">
+                                <i class="fas fa-check"></i> Verified
+                            </span>
+                        </div>
+                        <div class="farmer-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Green Valley Farm, Karnataka
+                        </div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(128 ratings)</span>
+                        </div>
+                    </div>
+                    <p class="product-description">Locally grown, organic tomatoes. Perfect for salads and cooking.</p>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    <button class="add-to-cart">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                    <button class="feedback-btn" onclick="location.href='feedback.html'">
+                        <i class="fas fa-comment"></i> Leave Feedback
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="image-gallery">
+                    <div class="gallery-images">
+                        <img src="https://images.unsplash.com/photo-1582515073490-39981397c445" alt="Organic Carrots Front" class="active">
+                        <img src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37" alt="Organic Carrots Bundle">
+                        <img src="https://images.unsplash.com/photo-1590868309235-ea34bed7bd7f" alt="Organic Carrots Close">
+                    </div>
+                    <button class="gallery-arrow gallery-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="gallery-arrow gallery-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="gallery-nav">
+                        <button class="gallery-dot active"></button>
+                        <button class="gallery-dot"></button>
+                        <button class="gallery-dot"></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Organic Carrots</h3>
+                    <div class="price-info">
+                        <p class="product-price">₹60/kg</p>
+                        <p class="item-total">Total: ₹<span>60</span></p>
+                    </div>
+                    <div class="farmer-details">
+                        <div class="farmer-name">
+                            <i class="fas fa-user-circle"></i>
+                            Sarah Johnson
+                            <span class="verified-badge">
+                                <i class="fas fa-check"></i> Verified
+                            </span>
+                        </div>
+                        <div class="farmer-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Sunshine Organics, Maharashtra
+                        </div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(256 ratings)</span>
+                        </div>
+                    </div>
+                    <p class="product-description">Sweet and crunchy carrots, freshly harvested from local farms.</p>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    <button class="add-to-cart">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                    <button class="feedback-btn" onclick="location.href='feedback.html'">
+                        <i class="fas fa-comment"></i> Leave Feedback
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="image-gallery">
+                    <div class="gallery-images">
+                        <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb" alt="Fresh Spinach Front" class="active">
+                        <img src="https://images.unsplash.com/photo-1574316071802-0d684efa7bf5" alt="Fresh Spinach Bunch">
+                        <img src="https://images.unsplash.com/photo-1628773822503-93b16c1a4410" alt="Fresh Spinach Close">
+                    </div>
+                    <button class="gallery-arrow gallery-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="gallery-arrow gallery-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="gallery-nav">
+                        <button class="gallery-dot active"></button>
+                        <button class="gallery-dot"></button>
+                        <button class="gallery-dot"></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Fresh Spinach</h3>
+                    <div class="price-info">
+                        <p class="product-price">₹40/kg</p>
+                        <p class="item-total">Total: ₹<span>40</span></p>
+                    </div>
+                    <div class="farmer-details">
+                        <div class="farmer-name">
+                            <i class="fas fa-user-circle"></i>
+                            Rajesh Kumar
+                            <span class="verified-badge">
+                                <i class="fas fa-check"></i> Verified
+                            </span>
+                        </div>
+                        <div class="farmer-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Fresh Greens Farm, Tamil Nadu
+                        </div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="rating-count">(89 ratings)</span>
+                        </div>
+                    </div>
+                    <p class="product-description">Nutrient-rich spinach leaves, perfect for salads and cooking.</p>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    <button class="add-to-cart">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                    <button class="feedback-btn" onclick="location.href='feedback.html'">
+                        <i class="fas fa-comment"></i> Leave Feedback
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="image-gallery">
+                    <div class="gallery-images">
+                        <img src="https://images.unsplash.com/photo-1563565375-f3fdfdbefa83" alt="Bell Peppers Front" class="active">
+                        <img src="https://images.unsplash.com/photo-1592578295790-425a6318a522" alt="Bell Peppers Mixed">
+                        <img src="https://images.unsplash.com/photo-1601648764658-cf37e8c89b70" alt="Bell Peppers Close">
+                    </div>
+                    <button class="gallery-arrow gallery-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="gallery-arrow gallery-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="gallery-nav">
+                        <button class="gallery-dot active"></button>
+                        <button class="gallery-dot"></button>
+                        <button class="gallery-dot"></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Bell Peppers</h3>
+                    <div class="price-info">
+                        <p class="product-price">₹120/kg</p>
+                        <p class="item-total">Total: ₹<span>120</span></p>
+                    </div>
+                    <div class="farmer-details">
+                        <div class="farmer-name">
+                            <i class="fas fa-user-circle"></i>
+                            Priya Patel
+                            <span class="verified-badge">
+                                <i class="fas fa-check"></i> Verified
+                            </span>
+                        </div>
+                        <div class="farmer-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Rainbow Farm, Gujarat
+                        </div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(167 ratings)</span>
+                        </div>
+                    </div>
+                    <p class="product-description">Colorful and crisp bell peppers, great for stir-fries and salads.</p>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    <button class="add-to-cart">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                    <button class="feedback-btn" onclick="location.href='feedback.html'">
+                        <i class="fas fa-comment"></i> Leave Feedback
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize cart count and cart items
+        let cartCount = 0;
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || {};
+
+        // Update cart count from stored items
+        Object.values(cartItems).forEach(item => {
+            cartCount += item.quantity;
+        });
+        document.querySelector('.cart-count').textContent = cartCount;
+
+        // Add quantity control functionality with price update
+        document.querySelectorAll('.product-card').forEach(card => {
+            const minusBtn = card.querySelector('.minus');
+            const plusBtn = card.querySelector('.plus');
+            const quantityDisplay = card.querySelector('.quantity-display');
+            const pricePerKg = parseFloat(card.querySelector('.product-price').textContent.replace('₹', ''));
+            const itemTotalElement = card.querySelector('.item-total span');
+
+            function updateItemTotal(quantity) {
+                const total = (pricePerKg * quantity).toFixed(2);
+                itemTotalElement.textContent = total;
+            }
+
+            minusBtn.addEventListener('click', () => {
+                let quantity = parseInt(quantityDisplay.textContent);
+                if (quantity > 1) {
+                    quantity--;
+                    quantityDisplay.textContent = quantity;
+                    updateItemTotal(quantity);
+                }
+            });
+
+            plusBtn.addEventListener('click', () => {
+                let quantity = parseInt(quantityDisplay.textContent);
+                quantity++;
+                quantityDisplay.textContent = quantity;
+                updateItemTotal(quantity);
+            });
+        });
+
+        // Update cart functionality
+        function updateCartTotal() {
+            let total = 0;
+            Object.values(cartItems).forEach(item => {
+                total += item.price * item.quantity;
+            });
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+        }
+
+        // Update the add to cart functionality
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            const productCard = button.closest('.product-card');
+            const productTitle = productCard.querySelector('.product-title').textContent;
+            const productPrice = parseFloat(productCard.querySelector('.product-price').textContent.replace('₹', ''));
+            const productImage = productCard.querySelector('.gallery-images img').src;
+
+            button.addEventListener('click', function() {
+                const quantity = parseInt(productCard.querySelector('.quantity-display').textContent);
+                
+                // Update cart items
+                if (cartItems[productTitle]) {
+                    cartItems[productTitle].quantity += quantity;
+                } else {
+                    cartItems[productTitle] = {
+                        quantity: quantity,
+                        price: productPrice,
+                        image: productImage
+                    };
+                }
+                
+                // Update localStorage
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                
+                // Update cart count and total
+                cartCount += quantity;
+                document.querySelector('.cart-count').textContent = cartCount;
+                updateCartTotal();
+                
+                // Add animation effect
+                this.classList.add('added');
+                this.innerHTML = `<i class="fas fa-check"></i> Added ${quantity}! (₹${(productPrice * quantity).toFixed(2)})`;
+                
+                setTimeout(() => {
+                    this.classList.remove('added');
+                    this.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
+                    productCard.querySelector('.quantity-display').textContent = '1';
+                    updateItemTotal(1); // Reset item total display
+                }, 2000);
+            });
+        });
+
+        // Initialize cart total on page load
+        updateCartTotal();
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        const searchButton = document.querySelector('.search-bar button');
+        const products = document.querySelectorAll('.product-card');
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            products.forEach(product => {
+                const title = product.querySelector('.product-title').textContent.toLowerCase();
+                const description = product.querySelector('.product-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Add image gallery functionality
+        document.querySelectorAll('.image-gallery').forEach(gallery => {
+            const images = gallery.querySelectorAll('.gallery-images img');
+            const dots = gallery.querySelectorAll('.gallery-dot');
+            const prevBtn = gallery.querySelector('.gallery-prev');
+            const nextBtn = gallery.querySelector('.gallery-next');
+            let currentIndex = 0;
+
+            function showImage(index) {
+                images.forEach(img => img.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                images[index].classList.add('active');
+                dots[index].classList.add('active');
+            }
+
+            function nextImage() {
+                currentIndex = (currentIndex + 1) % images.length;
+                showImage(currentIndex);
+            }
+
+            function prevImage() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                showImage(currentIndex);
+            }
+
+            // Event listeners
+            nextBtn.addEventListener('click', nextImage);
+            prevBtn.addEventListener('click', prevImage);
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    showImage(currentIndex);
+                });
+            });
+
+            // Auto-rotate images every 5 seconds
+            let interval = setInterval(nextImage, 5000);
+
+            // Pause auto-rotation on hover
+            gallery.addEventListener('mouseenter', () => clearInterval(interval));
+            gallery.addEventListener('mouseleave', () => interval = setInterval(nextImage, 5000));
+        });
+    </script>
+</body>
+</html> 

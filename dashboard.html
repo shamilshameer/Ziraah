@@ -181,12 +181,8 @@
                         Browse Products and Search
                     </button>
                     <button class="dashboard-btn buyer-btn">
-                        <i class="fas fa-eye icon"></i>
-                        View Product Details
-                    </button>
-                    <button class="dashboard-btn buyer-btn">
                         <i class="fas fa-shopping-cart icon"></i>
-                        Add to Cart
+                        Orders
                     </button>
                     <button class="dashboard-btn buyer-btn">
                         <i class="fas fa-star icon"></i>
@@ -198,7 +194,6 @@
     </div>
 
     <script>
-        // Add click handlers for buttons
         document.querySelectorAll('.dashboard-btn').forEach(button => {
             button.addEventListener('click', function() {
                 // Add button click animation
@@ -210,6 +205,12 @@
                 // Get the button text and handle navigation
                 const buttonText = this.textContent.trim();
                 switch(buttonText) {
+                    case 'Browse Products and Search':
+                        window.location.href = 'customerdashboard.html';
+                        break;
+                    case 'Orders':
+                        window.location.href = 'orders.html';
+                        break;
                     case 'Seller Dashboard':
                         // Add navigation logic
                         break;
@@ -219,9 +220,6 @@
                     case 'Order Management':
                         // Add navigation logic
                         break;
-                    case 'Browse Products and Search':
-                        // Add navigation logic
-                        break;
                     case 'View Product Details':
                         // Add navigation logic
                         break;
@@ -229,7 +227,7 @@
                         // Add navigation logic
                         break;
                     case 'Leave Feedback and Ratings':
-                        // Add navigation logic
+                        window.location.href = 'feedback.html';
                         break;
                 }
             });

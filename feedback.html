@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIRAAH - Product Feedback</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #2c5f2d;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .back-btn {
+            background-color: #1a4173;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #153358;
+        }
+
+        .product-reviews {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .farmer-details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .farmer-name {
+            color: #2c5f2d;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .verified-badge {
+            background-color: #2c5f2d;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .rating-summary {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .reviews-list {
+            margin-top: 20px;
+        }
+
+        .review-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .review-date {
+            color: #666;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .review-text {
+            color: #444;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .add-review-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #2c5f2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .add-review-btn:hover {
+            background-color: #224b23;
+        }
+
+        .feedback-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .feedback-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+
+        .star-rating i {
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star-rating i.active {
+            color: #ffc107;
+        }
+
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .reviewer-input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .feedback-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 120px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        .submit-feedback {
+            background-color: #2c5f2d;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-feedback:hover {
+            background-color: #224b23;
+        }
+
+        .product-name {
+            font-size: 18px;
+            color: #2c5f2d;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .delete-review {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+            transition: color 0.3s;
+        }
+
+        .delete-review:hover {
+            color: #c82333;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>Product Reviews & Ratings</h1>
+            <button class="back-btn" onclick="location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="product-reviews" id="productReviews">
+            <!-- Product review cards will be populated here -->
+        </div>
+    </div>
+
+    <!-- Add this modal HTML before the closing body tag -->
+    <div class="feedback-modal" id="feedbackModal" style="display: none;">
+        <div class="feedback-content">
+            <button class="close-modal">&times;</button>
+            <h2>Write a Review</h2>
+            <p class="product-name"></p>
+            <div class="star-rating">
+                <i class="fas fa-star" data-rating="1"></i>
+                <i class="fas fa-star" data-rating="2"></i>
+                <i class="fas fa-star" data-rating="3"></i>
+                <i class="fas fa-star" data-rating="4"></i>
+                <i class="fas fa-star" data-rating="5"></i>
+            </div>
+            <form class="feedback-form">
+                <input type="text" placeholder="Your Name" required class="reviewer-input">
+                <textarea placeholder="Share your experience with this product..." required></textarea>
+                <button type="submit" class="submit-feedback">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get products and their feedbacks from localStorage
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || {};
+        const feedbacks = JSON.parse(localStorage.getItem('productFeedbacks')) || [];
+
+        // Function to calculate average rating
+        function calculateAverageRating(productName) {
+            const productFeedbacks = feedbacks.filter(f => f.product === productName);
+            if (productFeedbacks.length === 0) return 0;
+            const sum = productFeedbacks.reduce((acc, curr) => acc + parseInt(curr.rating), 0);
+            return (sum / productFeedbacks.length).toFixed(1);
+        }
+
+        // Function to generate star rating HTML
+        function generateStarRating(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i - 0.5 <= rating) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+        // Function to format date
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Generate product review cards
+        const productReviewsContainer = document.getElementById('productReviews');
+        const products = [
+            {
+                name: "Fresh Tomatoes",
+                image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655",
+                farmer: "John Smith",
+                location: "Green Valley Farm, Karnataka"
+            },
+            {
+                name: "Organic Carrots",
+                image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37",
+                farmer: "Sarah Johnson",
+                location: "Sunshine Organics, Maharashtra"
+            },
+            {
+                name: "Fresh Spinach",
+                image: "https://images.unsplash.com/photo-1566842600175-97dca489844f",
+                farmer: "Rajesh Kumar",
+                location: "Fresh Greens Farm, Tamil Nadu"
+            },
+            {
+                name: "Bell Peppers",
+                image: "https://images.unsplash.com/photo-1518977822534-7049a61ee0c2",
+                farmer: "Priya Patel",
+                location: "Rainbow Farm, Gujarat"
+            }
+        ];
+
+        products.forEach(product => {
+            const productFeedbacks = feedbacks.filter(f => f.product === product.name);
+            const averageRating = calculateAverageRating(product.name);
+
+            const productCard = `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <h2 class="product-title">${product.name}</h2>
+                        
+                        <div class="farmer-details">
+                            <div class="farmer-name">
+                                <i class="fas fa-user-circle"></i>
+                                ${product.farmer}
+                                <span class="verified-badge">
+                                    <i class="fas fa-check"></i> Verified
+                                </span>
+                            </div>
+                            <div class="farmer-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${product.location}
+                            </div>
+                        </div>
+
+                        <div class="rating-summary">
+                            <div class="rating-stars">
+                                ${generateStarRating(averageRating)}
+                                <span class="rating-count">(${productFeedbacks.length} reviews)</span>
+                            </div>
+                            <div>Average Rating: ${averageRating}/5</div>
+                        </div>
+
+                        <div class="reviews-list">
+                            ${productFeedbacks.map(feedback => `
+                                <div class="review-item" data-review-id="${feedback.date}">
+                                    <div class="review-header">
+                                        <div class="reviewer-info">
+                                            <div class="rating-stars">${generateStarRating(feedback.rating)}</div>
+                                            <div class="reviewer-name">${feedback.reviewer || 'Anonymous'}</div>
+                                        </div>
+                                        <button class="delete-review" onclick="deleteReview('${product.name}', '${feedback.date}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <div class="review-date">${formatDate(feedback.date)}</div>
+                                    <p class="review-text">${feedback.comment}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <button class="add-review-btn" onclick="openReviewModal('${product.name}')">
+                            <i class="fas fa-plus"></i> Add Review
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            productReviewsContainer.innerHTML += productCard;
+        });
+
+        // Add these new functions after the existing code
+        const modal = document.getElementById('feedbackModal');
+        let currentProductName = '';
+        let currentRating = 0;
+
+        function openReviewModal(productName) {
+            currentProductName = productName;
+            modal.style.display = 'flex';
+            modal.querySelector('.product-name').textContent = productName;
+            resetForm();
+        }
+
+        // Close modal when clicking the close button or outside
+        document.querySelector('.close-modal').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Star rating functionality
+        const stars = document.querySelectorAll('.star-rating i');
+        
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                const rating = this.dataset.rating;
+                highlightStars(rating);
+            });
+
+            star.addEventListener('click', function() {
+                currentRating = this.dataset.rating;
+                highlightStars(currentRating);
+            });
+
+            star.addEventListener('mouseout', function() {
+                highlightStars(currentRating);
+            });
+        });
+
+        function highlightStars(rating) {
+            stars.forEach(star => {
+                star.classList.toggle('active', star.dataset.rating <= rating);
+            });
+        }
+
+        function resetForm() {
+            currentRating = 0;
+            highlightStars(0);
+            document.querySelector('.feedback-form').reset();
+        }
+
+        // Handle form submission
+        document.querySelector('.feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (currentRating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+
+            const reviewerName = this.querySelector('.reviewer-input').value;
+            const comment = this.querySelector('textarea').value;
+
+            const newFeedback = {
+                product: currentProductName,
+                rating: currentRating,
+                comment: comment,
+                reviewer: reviewerName || 'Anonymous',
+                date: new Date().toISOString()
+            };
+
+            // Add new feedback to existing feedbacks
+            feedbacks.push(newFeedback);
+            localStorage.setItem('productFeedbacks', JSON.stringify(feedbacks));
+
+            // Close modal and refresh the page to show new review
+            modal.style.display = 'none';
+            location.reload();
+        });
+
+        function deleteReview(productName, reviewDate) {
+            if (confirm('Are you sure you want to delete this review?')) {
+                // Find the index of the review to delete
+                const reviewIndex = feedbacks.findIndex(f => 
+                    f.product === productName && f.date === reviewDate
+                );
+
+                if (reviewIndex !== -1) {
+                    // Remove the review from the array
+                    feedbacks.splice(reviewIndex, 1);
+                    
+                    // Update localStorage
+                    localStorage.setItem('productFeedbacks', JSON.stringify(feedbacks));
+
+                    // Remove the review from the DOM
+                    const reviewElement = document.querySelector(`[data-review-id="${reviewDate}"]`);
+                    if (reviewElement) {
+                        reviewElement.remove();
+
+                        // Update the review count and average rating
+                        const productCard = reviewElement.closest('.product-card');
+                        const productFeedbacks = feedbacks.filter(f => f.product === productName);
+                        const averageRating = calculateAverageRating(productName);
+                        
+                        // Update the rating summary
+                        const ratingSummary = productCard.querySelector('.rating-summary');
+                        ratingSummary.innerHTML = `
+                            <div class="rating-stars">
+                                ${generateStarRating(averageRating)}
+                                <span class="rating-count">(${productFeedbacks.length} reviews)</span>
+                            </div>
+                            <div>Average Rating: ${averageRating}/5</div>
+                        `;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html> 
